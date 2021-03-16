@@ -1,15 +1,8 @@
-<%- include('partials/header') -%>
-<!-- <nav class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-top">
-        Bootstrap
-      </a>
-    </div>
-  </nav> -->
+<%- include("partials/header") -%>
+
   <nav>
     <ul>
-        <li><a class="active" href="/"><h3 class="gradient-text">Quiz'R US</h1></a></li>
+        <li><a class="active" href="/"><h3 class="gradient-text">Quiz'R US</h3></a></li>
             
       </ul>
       
@@ -17,25 +10,19 @@
 
 <div class="container game-container">
     <div id="game" class="justify-center flex-column">
-        <h2 id="question"><%- questionForQuiz %></h1>
+        <h3 id="question"><%- questionForQuiz %></h3>
           <% for (var i =0; i <=3;  i++ ) { %>
         <div class="choice-container">
-            <p class="choice-prefix"><%-i+1%></p>
-            <p class="choice-text" data-number="1"><%- answerChoices[i]%></p>
-        </div>
+          <% if(answerChoices[i] === correctAnswer){ %>
+              <p class="choice-prefix"> <%-i+1%> </p>
+              <p class="choice-text" id="correctAnswerChosen"><%- correctAnswer%></p>
+            </div>
+          <% }else{ %>
+              <p class="choice-prefix"><%- i+1%></p>
+              <p class="choice-text"><%- answerChoices[i]%></p>
+              </div>
+          <% } %>
          <% } %>
-        <!-- <div class="choice-container">
-            <p class="choice-prefix">B</p>
-            <p class="choice-text" data-number="2">Choice 2</p>
-        </div>
-        <div class="choice-container">
-            <p class="choice-prefix">C</p>
-            <p class="choice-text" data-number=""3>Choice 3</p>
-        </div>
-        <div class="choice-container">
-            <p class="choice-prefix">D</p>
-            <p class="choice-text" data-number="4">Choice 4</p>
-        </div> -->
       </div>
 </div>
 <%- include('partials/footer') -%>

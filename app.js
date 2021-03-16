@@ -22,9 +22,7 @@ app.get("/", function (req, res) {
 });
 
 app.get("/game", function (req, res) {
-  // const unixTimeCreated = new Date().getTime();
-  // console.log(quizQuestion.question);
-  // console.log(loadedQuestions.results);
+  
   let url = "https://opentdb.com/api.php?amount=10&type=multiple";
 
   fetch(url)
@@ -64,6 +62,7 @@ app.get("/game", function (req, res) {
       res.render("game", {
         questionForQuiz: loadedQuestions.results[numberQ].question,
         answerChoices: answerArr,
+        correctAnswer: loadedQuestions.results[numberQ].correct_answer
       });
     })
     .catch((err) => {

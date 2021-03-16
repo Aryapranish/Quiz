@@ -1,11 +1,25 @@
+var answerChosen = document.querySelectorAll(".choice-container");
 
-// var db = require("../models");
-// // console.log();
-// alert("Questions.js");
-// const question = document.getElementById("question");
-// const choices = document.getElementsByClassName("choice-text");
-// console.log(Array.prototype.slice.call(choices));
+//Show if answer was correct or wrong
+var answer = answerChosen.forEach((item) => {
+  item.addEventListener("click", (event) => {
+    //handle click
+    //   item.classList.toggle("reverse");
+    //   console.log(item.childNodes);
+    var choice = item.childNodes;
+    if (choice[3].id === "correctAnswerChosen") {
+      item.classList.toggle("right-reverse");
+      setTimeout(location.reload.bind(location), 200);
+    } else {
+      item.classList.add("reverse");
+      item.classList.add("apply-shake");
 
-// window.addEventListener("load", function(event) {
-//     console.log(document.getElementsByClassName('choice-text').length);
-// });
+      setTimeout(function() {
+        item.classList.remove("reverse");
+      }, 500); // waiting one second
+      
+      //   console.log("Wrong");
+    }
+    // console.log(typeof(choice[3].id));
+  });
+});
