@@ -39,6 +39,7 @@
 
 #question {
   text-align: center;
+  font-size: 2rem;
 }
 
 nav {
@@ -62,6 +63,27 @@ nav li {
 nav li a {
   text-decoration: none;
 }
+
+/* HUD */
+#hud {
+  display: flex;
+  justify-content: end;
+}
+
+.hud-prefix{
+  font-size: 2rem;
+  transform: translateY(-3rem);
+  margin-right: 1rem;
+}
+
+
+
+.hud{
+  display: flex;
+  justify-content: flex-end;
+}
+
+
 .reverse {
   background: rgb(253, 119, 119);
   color: #eee;

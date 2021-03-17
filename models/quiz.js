@@ -7,22 +7,18 @@ var quizSchema = new mongoose.Schema({
   difficulty: {
     type: String,
   },
+  type:{
+    type: String,
+    default: "multiple",
+  },
   question: {
     type: String,
   },
-  answer: {
+  correct_answer: {
     type: String,
   },
   incorrect_answers: {
     type: Array,
-  },
-  points: {
-    type: Number,
-    default: 10,
-  },
-  createdDate: {
-    type: Date,
-    default: Date.now,
   },
 });
 

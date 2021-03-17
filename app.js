@@ -23,7 +23,7 @@ app.get("/", function (req, res) {
 
 app.get("/game", function (req, res) {
   
-  let url = "https://opentdb.com/api.php?amount=10&type=multiple";
+  let url = "https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple";
 
   fetch(url)
     .then((result) => {
@@ -31,7 +31,7 @@ app.get("/game", function (req, res) {
     })
     .then((loadedQuestions) => {
       // let question = loadedQuestions.results[numberQ].question;
-      let numberQ = Math.floor(Math.random() * 3);
+      let numberQ = Math.floor(Math.random() * 3) + 1 ;
       let answerArr = [...loadedQuestions.results[numberQ].incorrect_answers];
       answerArr = answerArr.concat(
         loadedQuestions.results[numberQ].correct_answer
@@ -59,10 +59,13 @@ app.get("/game", function (req, res) {
 
       shuffle(answerArr);
 
+      // console.log((loadedQuestions.results[1]));
+
       res.render("game", {
         questionForQuiz: loadedQuestions.results[numberQ].question,
         answerChoices: answerArr,
-        correctAnswer: loadedQuestions.results[numberQ].correct_answer
+        correctAnswer: loadedQuestions.results[numberQ].correct_answer,
+        score: 10
       });
     })
     .catch((err) => {

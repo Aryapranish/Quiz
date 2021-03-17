@@ -2,14 +2,22 @@
 
   <nav>
     <ul>
-        <li><a class="active" href="/"><h3 class="gradient-text">Quiz'R US</h3></a></li>
+        <li><a class="active" href="/"><h3 id="home" class="gradient-text">Quiz'R us</h3></a></li>
             
+                
       </ul>
       
   </nav>
 
 <div class="container game-container">
     <div id="game" class="justify-center flex-column">
+      <div class="hud">
+        <h4 class="hud-prefix">
+          Score:
+          </h4>
+          <h4 class="hud-prefix" id="score">
+          </h4>
+      </div>
         <h3 id="question"><%- questionForQuiz %></h3>
           <% for (var i =0; i <=3;  i++ ) { %>
         <div class="choice-container">

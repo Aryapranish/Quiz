@@ -22,7 +22,7 @@ h2,
 h3,
 h4 {
   margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 h1 {
   font-family: "Archivo Black", sans-serif;
@@ -188,4 +188,12 @@ h3 {
   outline: none;
   transform: translateY(-1px);
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+.footer
+{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  margin-top: 0.5rem;
+  width: 100%;
 }
