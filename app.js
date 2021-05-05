@@ -2,13 +2,12 @@ const express = require("express"),
   bodyParser = require("body-parser"),
   ejs = require("ejs"),
   port = 3000,
+  encrypt = require("mongoose-encryption"),
   db = require(__dirname + "/models");
 const fetch = require("node-fetch");
+var mongoose = require("mongoose");
 
 var quizRoutes = require("./routes/quiz_route");
-// quizQuestion = require("./helpers/sendToEJS");
-
-// var question = quizQuestion.questions();
 
 const app = express();
 
@@ -16,14 +15,44 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.get("/", function (req, res) {
-  // console.log(quizQuestion); asdf
-  res.render("home.ejs");
+mongoose.connect("mongodb://localhost:27017/userDB", {useNewUrlParser: true});
+mongoose.set("useCreateIndex", true);
+
+const userSchema = new mongoose.Schema ({
+  email: String,
+  password: String,
 });
 
+const secret = "Thisisourlittlesecret.";
+userSchema.plugin(encrypt,{secret:secret, encryptedFields: ['password']});
+
+
+const User = new mongoose.model("User",userSchema);
+
+
+
+
+
+app.get("/", function (req, res) {
+  // console.log(quizQuestion); asdf
+  res.render("login.ejs");
+});
+
+app.get("/home",function(req,res){
+  res.render("home.ejs")
+})
+app.get("/login",function(req,res){
+  res.render("login.ejs")
+})
+
+
+app.get("/register",function(req,res){
+  res.render("register.ejs")
+})
+
 app.get("/game", function (req, res) {
-  
-  let url = "https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple";
+  let url =
+    "https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple";
 
   fetch(url)
     .then((result) => {
@@ -31,7 +60,7 @@ app.get("/game", function (req, res) {
     })
     .then((loadedQuestions) => {
       // let question = loadedQuestions.results[numberQ].question;
-      let numberQ = Math.floor(Math.random() * 3) + 1 ;
+      let numberQ = Math.floor(Math.random() * 3) + 1;
       let answerArr = [...loadedQuestions.results[numberQ].incorrect_answers];
       answerArr = answerArr.concat(
         loadedQuestions.results[numberQ].correct_answer
@@ -65,13 +94,47 @@ app.get("/game", function (req, res) {
         questionForQuiz: loadedQuestions.results[numberQ].question,
         answerChoices: answerArr,
         correctAnswer: loadedQuestions.results[numberQ].correct_answer,
-        score: 10
+        score: 10,
       });
     })
     .catch((err) => {
       return err;
     });
 });
+
+ 
+app.post("/register",function(req,res){
+  const newUser = new User({
+    email: req.body.username,
+    password: req.body.password
+  });
+  newUser.save(function(err){
+    if(err){
+      console.log(err);
+    }
+    else{
+      res.render("login");
+    }
+  })
+});
+app.post("/login", function(req,res){
+  const username = req.body.username;
+  const password = req.body.password;
+
+  User.findOne({email:username},function(err,foundUser){
+    if(err){
+      console.log(err);
+    }
+    else{
+      if(foundUser){
+        if(foundUser.password === password){
+          res.render("home")
+        }
+      }
+    }
+  })
+})
+
 
 //using the /api/quiz route and using functions in the routes folder
 app.use("/api/quiz", quizRoutes);
